@@ -22,13 +22,13 @@ app.get('/api/tasks', (req, res) => {
 
 //endpoint para crear una nueva tarea
 app.post('/api/tasks', (req, res) => {
-    const { title } = req.body;
+    const { titulo, descripcion } = req.body;
 
-    if (!title){
-        return res.status(400).json({ error: 'El titulo es necesario' });
+    if (!titulo || !descripcion){
+        return res.status(400).json({ error: 'El titulo y la descripcion son necesarios' });
     }
 
-    let nuevaTarea = { id: idTarea++, title, completado: false };
+    let nuevaTarea = { id: idTarea++, titulo, descripcion, completado: false, createdAt: new Date().toISOString() };
     tareas.push(nuevaTarea);
     res.status(201).json(nuevaTarea);
 });
@@ -36,7 +36,7 @@ app.post('/api/tasks', (req, res) => {
 //endpoint para actualizar una tarea
 app.put('/api/tasks/:id', (req, res) => {
     const { id } = req.params;
-    const { title, completado } = req.body;
+    const { titulo, descripcion, completado } = req.body;
 
     const tarea = tareas.find(t => t.id === parseInt(id));
 
@@ -44,11 +44,15 @@ app.put('/api/tasks/:id', (req, res) => {
         return res.status(404).json({ error: 'No se encontró la tarea'});
     }
 
-    if (title != undefined) {
-        tarea.title = title;
+    if (titulo !== undefined) {
+        tarea.titulo = titulo;
     }
 
-    if (completado != undefined) {
+    if (descripcion !== undefined) {
+        tarea.descripcion = descripcion;
+    }
+
+    if (completado !== undefined) {
         tarea.completado = completado;
     }
 
