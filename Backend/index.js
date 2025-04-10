@@ -28,7 +28,7 @@ app.post('/api/tasks', (req, res) => {
         return res.status(400).json({ error: 'El titulo y la descripcion son necesarios' });
     }
 
-    let nuevaTarea = { id: idTarea++, titulo, descripcion, completado: false, createdAt: new Date().toISOString() };
+    let nuevaTarea = { id: idTarea++, titulo, descripcion, completado: false, fechaCreacion: new Date().toISOString() };
     tareas.push(nuevaTarea);
     res.status(201).json(nuevaTarea);
 });
